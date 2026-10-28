@@ -223,14 +223,19 @@
     return btn;
   }
 
+  // Bouton de chaque post : un querySelector('.cth-btn') attraperait celui d'un post cité
+  // dedans, le déplacerait dans notre carré, et le post cité en recréerait un en boucle
+  const buttons = new WeakMap();
+
   function updateButton(post, u, reason) {
-    let btn = post.querySelector('.cth-btn');
+    let btn = buttons.get(post);
     if (!settings.showButton || (ownUser() && u.toLowerCase() === ownUser().toLowerCase())) { btn?.remove(); return; }
-    if (!btn) {
+    if (!btn || !post.contains(btn)) {
       const time = post.querySelector('time');
-      const anchor = time ? (time.closest('a') || time) : null;
+      const link = time?.closest('a');
+      const anchor = link && post.contains(link) ? link : time;
       if (!anchor || anchor.closest('.cth-ui')) return;
-      btn = makeButton(post);
+      if (!btn) buttons.set(post, (btn = makeButton(post)));
       anchor.insertAdjacentElement('afterend', btn);
     }
     // Post caché : le carré recouvre le bouton, on le met dedans (il repart avec le carré à l'affichage)
