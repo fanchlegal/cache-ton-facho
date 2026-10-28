@@ -1,0 +1,1 @@
+Cache ton facho ne collecte, ne transmet et ne vend aucune donnée personnelle. Les réglages (comptes, mots-clés, préférences) sont stockés uniquement dans le navigateur de l'utilisateur. Si la liste partagée est activée, l'extension télécharge un fichier texte public depuis GitHub, sans envoyer aucune information sur l'utilisateur. Contact : fanch@to-doo.fr
