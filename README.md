@@ -2,7 +2,7 @@
 
 Une extension de navigateur qui cache sur [Threads](https://www.threads.com) (version web) les posts des comptes et des mots-clés de ton choix, derrière un carré de la couleur que tu veux.
 
-Version 0.2.1 · Chrome / Chromium et Firefox · licence GPL-3.0 · Threads sur ordinateur (pas l'application mobile) · rien n'est bloqué ni signalé, tout se passe sur ton ordinateur.
+Version 0.2.2 · Chrome / Chromium et Firefox · licence GPL-3.0 · Threads sur ordinateur (pas l'application mobile) · rien n'est bloqué ni signalé, tout se passe sur ton ordinateur.
 
 Pour bloquer, mettre en sourdine ou signaler, voir l'extension sœur [Bloque ton facho](https://github.com/fanchlegal/bloque-ton-facho).
 
