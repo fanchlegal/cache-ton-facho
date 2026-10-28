@@ -1,0 +1,4 @@
+# Liste partagée « Cache ton facho »
+# Un pseudo Threads par ligne, avec ou sans @ (ou l'adresse du profil).
+# Tout ce qui suit un # est un commentaire et n'est pas lu.
+

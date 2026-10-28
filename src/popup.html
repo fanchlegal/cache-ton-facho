@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Cache ton facho</title>
+  <style>
+    :root { color-scheme: light dark; --accent: #e5223a; --muted: #888; }
+    body { width: 360px; margin: 0; padding: 14px; font: 13px system-ui, -apple-system, sans-serif; }
+    h1 { font-size: 15px; margin: 0 0 6px; }
+    h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 16px 0 6px; }
+    label.block { display: block; font-weight: 600; margin: 10px 0 4px; }
+    textarea { width: 100%; box-sizing: border-box; font: 12px ui-monospace, monospace; padding: 6px; border-radius: 6px; resize: vertical; }
+    input[type=text] { width: 100%; box-sizing: border-box; padding: 6px; border-radius: 6px; font: inherit; }
+    .hint { color: var(--muted); font-size: 11px; margin-top: 3px; }
+    .row { display: flex; align-items: center; gap: 6px; margin: 6px 0; }
+    .between { justify-content: space-between; }
+    button { cursor: pointer; border: 0; border-radius: 6px; padding: 7px 12px; font-weight: 600; font: inherit; }
+    .small { font-size: 11px; padding: 4px 8px; }
+    #save { background: var(--accent); color: #fff; font-weight: 600; }
+    #saved { color: green; margin-left: 8px; opacity: 0; transition: opacity .2s; }
+    .swatches { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .swatch { width: 24px; height: 24px; border-radius: 6px; border: 2px solid transparent; padding: 0; }
+    .swatch.on { border-color: var(--accent); }
+    input[type=color] { width: 30px; height: 28px; padding: 0; border: 0; background: none; cursor: pointer; }
+    #preview { margin-top: 8px; height: 64px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; text-align: center; padding: 0 12px; }
+    #previewLabel { font-weight: 600; font-size: 13px; }
+    #previewHint { font-size: 11px; opacity: .7; }
+    #previewLabel:empty, #previewHint:empty { display: none; }
+    .count { color: var(--muted); font-weight: 400; }
+  </style>
+</head>
+<body>
+  <h1>🙈 Cache ton facho</h1>
+  <div class="hint">Cache sur Threads les posts des comptes et des mots-clés de ton choix.</div>
+
+  <h2>Quoi cacher</h2>
+  <div class="row between">
+    <label class="block" for="accounts" style="margin:0">Comptes <span class="count" id="accCount"></span></label>
+    <span>
+      <button id="import" class="small">Importer</button>
+      <button id="export" class="small">Exporter</button>
+      <input type="file" id="importFile" accept=".txt,text/plain" hidden>
+    </span>
+  </div>
+  <textarea id="accounts" rows="5" placeholder="Un pseudo par ligne, ex. : exemple.compte"></textarea>
+  <div class="hint">Un par ligne, avec ou sans @. Tu peux aussi coller l'adresse d'un profil. Leurs réponses sont cachées partout.</div>
+
+  <label class="block" for="keywords">Mots-clés</label>
+  <textarea id="keywords" rows="4" placeholder="Un par ligne (mots, hashtags, emojis)"></textarea>
+  <div class="hint">Les majuscules et les accents ne comptent pas. Cherchés dans le pseudo, le nom et le texte du post.</div>
+
+  <h2>Liste partagée</h2>
+  <div class="row"><input type="checkbox" id="useRemote"><label for="useRemote">Cacher aussi les comptes de la liste partagée</label></div>
+  <div class="hint">Une liste de comptes tenue à jour par les auteurs de l'extension, récupérée automatiquement. Tu peux décocher à tout moment.</div>
+  <div class="row between" id="remoteBox">
+    <span id="remoteStatus" class="hint" style="margin:0"></span>
+    <button id="refresh" class="small">Mettre à jour</button>
+  </div>
+  <label class="block" for="exceptions">Comptes à ne jamais cacher</label>
+  <textarea id="exceptions" rows="2" placeholder="Un pseudo par ligne"></textarea>
+  <div class="hint">Pour les comptes de la liste partagée que tu ne veux pas cacher. Le bouton 👁 sur un post les ajoute ici.</div>
+  <details style="margin-top:8px">
+    <summary class="hint" style="cursor:pointer">Autres listes (adresses)</summary>
+    <textarea id="remoteUrls" rows="2" style="margin-top:6px" placeholder="Une adresse par ligne"></textarea>
+    <div class="hint">Adresse d'un fichier texte avec un pseudo par ligne. Firefox ou Chrome te demanderont l'autorisation d'y accéder.</div>
+  </details>
+
+  <h2>Apparence</h2>
+  <label class="block">Couleur du carré</label>
+  <div class="swatches" id="swatches">
+    <input type="color" id="color" title="Choisir une autre couleur">
+  </div>
+
+  <label class="block" for="labelMode">Texte sur le carré</label>
+  <select id="labelMode">
+    <option value="none">Aucun texte</option>
+    <option value="text">Mon texte</option>
+    <option value="reason">Mon texte + la raison (compte ou mot-clé)</option>
+  </select>
+  <div id="labelTextRow">
+    <input type="text" id="labelText" maxlength="80" placeholder="Post masqué" style="margin-top:6px">
+  </div>
+
+  <div class="row"><input type="checkbox" id="allowReveal"><label for="allowReveal">Cliquer sur le carré pour afficher le post</label></div>
+  <div class="row"><input type="checkbox" id="showButton"><label for="showButton">Bouton 🙈 sur chaque post pour cacher son auteur</label></div>
+
+  <div id="preview"><span id="previewLabel"></span><span id="previewHint"></span></div>
+
+  <div class="row" style="margin-top:12px"><button id="save">Enregistrer</button><span id="saved">✓ Enregistré</span></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
