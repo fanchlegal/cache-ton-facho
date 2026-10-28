@@ -233,6 +233,9 @@
       btn = makeButton(post);
       anchor.insertAdjacentElement('afterend', btn);
     }
+    // Post caché : le carré recouvre le bouton, on le met dedans (il repart avec le carré à l'affichage)
+    const cover = post.querySelector(':scope > .cth-cover');
+    if (cover && btn.parentElement !== cover) cover.appendChild(btn);
     const where = listedWhere(u);
     let action, icon, title;
     if (reason && revealed.has(post)) {

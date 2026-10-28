@@ -52,6 +52,7 @@
   transition: background 0.15s, transform 0.1s;
 }
 .cth-btn:hover { background: rgba(128, 128, 128, 0.25); transform: scale(1.12); }
+.cth-cover .cth-btn { margin: 4px 0 0; }
 
 .cth-toast {
   position: fixed;
