@@ -4,6 +4,18 @@ Fonctionne aussi sur les navigateurs basés sur Chromium : Edge, Brave, Opera, V
 
 ## Installation
 
+1. Ouvre la page de l'extension sur le [Chrome Web Store](https://chromewebstore.google.com/detail/cache-ton-facho/kbdkjponofekblddnadghnbnmleoaokc).
+2. Clique **Ajouter à Chrome**, puis confirme.
+3. Recharge l'onglet Threads.
+
+Sur Edge, autorise d'abord les extensions d'autres stores (bandeau en haut de la page du store).
+
+Astuce : épingle l'extension (icône puzzle 🧩 → punaise) pour garder son icône (l'œil barré) visible.
+
+Les mises à jour arrivent toutes seules.
+
+## Installation manuelle (sans le store)
+
 1. Télécharge [`cache-ton-facho.zip`](cache-ton-facho.zip) (bouton **Download raw file** sur la page GitHub).
 2. Décompresse le zip : tu obtiens un dossier `cache-ton-facho`.
 3. Ouvre `chrome://extensions` (`edge://extensions`, `brave://extensions`…).
@@ -13,9 +25,7 @@ Fonctionne aussi sur les navigateurs basés sur Chromium : Edge, Brave, Opera, V
 
 > Garde le dossier décompressé quelque part : si tu le supprimes, Chrome désactive l'extension.
 
-Astuce : épingle l'extension (icône puzzle 🧩 → punaise) pour garder son icône (l'œil barré) visible.
-
-## Mise à jour
+## Mise à jour (installation manuelle)
 
 1. Télécharge le nouveau zip et remplace l'ancien dossier par le nouveau (même emplacement).
 2. Dans `chrome://extensions`, clique ↻ sur la carte de l'extension.
@@ -25,7 +35,7 @@ Tes listes et réglages sont conservés.
 
 ## Désinstallation
 
-`chrome://extensions` → **Supprimer** sur la carte de l'extension, puis supprime le dossier.
+`chrome://extensions` → **Supprimer** sur la carte de l'extension (et, pour une installation manuelle, supprime le dossier).
 
 ## Si rien n'apparaît sur Threads
 

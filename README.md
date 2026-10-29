@@ -8,12 +8,12 @@ Pour bloquer, mettre en sourdine ou signaler, voir l'extension sœur [Bloque ton
 
 ## Installation
 
-| Navigateur | Fichier | Guide |
+| Navigateur | Où l'obtenir | Guide |
 |---|---|---|
-| Chrome, Edge, Brave, Opera, Arc… | [`dist/chrome/cache-ton-facho.zip`](dist/chrome/cache-ton-facho.zip) | [Installer sur Chrome](dist/chrome/README.md) |
+| Chrome, Edge, Brave, Opera, Arc… | [Chrome Web Store](https://chromewebstore.google.com/detail/cache-ton-facho/kbdkjponofekblddnadghnbnmleoaokc) | [Installer sur Chrome](dist/chrome/README.md) |
 | Firefox 142+ | [`dist/firefox/cache-ton-facho-firefox.xpi`](dist/firefox/cache-ton-facho-firefox.xpi) | [Installer sur Firefox](dist/firefox/README.md) |
 
-L'extension n'est pas (encore) sur le Chrome Web Store ni sur addons.mozilla.org : elle s'installe à la main, en quelques clics.
+Sur Chrome, l'extension s'installe depuis le Chrome Web Store et se met à jour toute seule. Elle n'est pas (encore) sur addons.mozilla.org : sur Firefox, elle s'installe à la main, en quelques clics.
 
 ## Ce que ça fait
 
