@@ -2,7 +2,7 @@
 
 Une extension de navigateur qui cache sur [Threads](https://www.threads.com) (version web) les posts des comptes et des mots-clés de ton choix, derrière un carré de la couleur que tu veux. Ça marche aussi sur [Instagram](https://www.instagram.com), si tu l'actives.
 
-Version 0.2.3 · Chrome / Chromium et Firefox · licence GPL-3.0 · Threads et Instagram sur ordinateur (pas les applications mobiles) · rien n'est bloqué ni signalé, tout se passe sur ton ordinateur.
+Version 0.2.4 · Chrome / Chromium et Firefox · licence GPL-3.0 · Threads et Instagram sur ordinateur (pas les applications mobiles) · rien n'est bloqué ni signalé, tout se passe sur ton ordinateur.
 
 Pour bloquer, mettre en sourdine ou signaler, voir l'extension sœur [Bloque ton facho](https://github.com/fanchlegal/bloque-ton-facho).
 
@@ -31,7 +31,7 @@ Clique sur l'icône de l'extension (l'œil barré) :
 | Réglage | Rôle |
 |---|---|
 | **Comptes** | Un pseudo par ligne, avec ou sans @, ou l'adresse d'un profil Threads ou Instagram. |
-| **Aussi sur Instagram** | Cacher les mêmes comptes et mots-clés sur Instagram (un compte Threads a le même pseudo que son compte Instagram). Le navigateur te demande l'autorisation d'accéder à instagram.com. |
+| **Aussi sur Instagram** | Cacher les mêmes comptes et mots-clés sur Instagram (un compte Threads a le même pseudo que son compte Instagram). Le navigateur te demande l'autorisation d'accéder à instagram.com ; recharge ensuite les onglets Instagram déjà ouverts. |
 | **Importer / Exporter** | Partager ta liste de comptes avec d'autres personnes, ou récupérer la leur (fichier texte). |
 | **Mots-clés** | Mots, hashtags ou emojis, un par ligne. Majuscules et accents ne comptent pas. Cherchés dans le pseudo, le nom et le texte du post. |
 | **Couleur du carré** | Une couleur proposée ou la tienne. |

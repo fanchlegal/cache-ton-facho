@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Cache ton facho",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Cache sur Threads et Instagram les posts des comptes et des mots-clés de ton choix derrière un carré de couleur.",
   "permissions": [
     "storage",
