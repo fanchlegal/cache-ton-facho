@@ -1,6 +1,9 @@
 .cth-hidden {
   position: relative !important;
   min-height: 64px;
+  /* min-height remplace le min-height: auto des éléments flex, qui pourraient alors rétrécir sous
+     leur contenu (légende d'un post Instagram) : le carré n'en couvrirait qu'une partie */
+  flex-shrink: 0;
 }
 
 .cth-cover {

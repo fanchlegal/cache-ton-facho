@@ -6,7 +6,7 @@ const REFRESH_MINUTES = 360; // toutes les 6 heures
 const MAX_SIZE = 2_000_000;  // 2 Mo maximum par liste
 
 const cleanUser = (s) => (s || '').trim()
-  .replace(/^https?:\/\/(www\.)?threads\.(com|net)\//i, '')
+  .replace(/^https?:\/\/(www\.)?(threads\.(com|net)|instagram\.com)\//i, '')
   .replace(/^@/, '').replace(/[/?#].*$/, '').toLowerCase();
 
 // Une ligne = un pseudo (avec ou sans @, ou adresse de profil). Tout ce qui suit # est un commentaire.
@@ -44,8 +44,24 @@ function schedule() {
   api.alarms.create('refresh-lists', { periodInMinutes: REFRESH_MINUTES });
 }
 
-api.runtime.onInstalled.addListener(() => { schedule(); refreshLists(); });
-api.runtime.onStartup?.addListener(() => { schedule(); refreshLists(); });
+// Instagram est facultatif (un nouveau site dans host_permissions désactiverait l'extension
+// chez tout le monde à la mise à jour) : le script n'y est injecté qu'une fois l'accès accordé
+const INSTAGRAM = {
+  id: 'instagram', matches: ['https://www.instagram.com/*'],
+  js: ['content.js'], css: ['styles.css'], runAt: 'document_idle'
+};
+
+async function syncInstagram() {
+  const on = await api.permissions.contains({ origins: INSTAGRAM.matches });
+  const registered = (await api.scripting.getRegisteredContentScripts({ ids: [INSTAGRAM.id] })).length > 0;
+  if (on && !registered) await api.scripting.registerContentScripts([INSTAGRAM]);
+  if (!on && registered) await api.scripting.unregisterContentScripts({ ids: [INSTAGRAM.id] });
+}
+
+api.permissions.onAdded.addListener(syncInstagram);
+api.permissions.onRemoved.addListener(syncInstagram);
+api.runtime.onInstalled.addListener(() => { schedule(); refreshLists(); syncInstagram(); });
+api.runtime.onStartup?.addListener(() => { schedule(); refreshLists(); syncInstagram(); });
 api.alarms.onAlarm.addListener((alarm) => { if (alarm.name === 'refresh-lists') refreshLists(); });
 
 api.runtime.onMessage.addListener((msg, _sender, sendResponse) => {

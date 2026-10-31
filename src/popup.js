@@ -13,7 +13,7 @@ const PRESETS = ['#2b2b33', '#6b7280', '#e5223a', '#f59e0b', '#16a34a', '#2563eb
 
 const lines = (v) => v.split('\n').map((t) => t.trim()).filter(Boolean);
 const cleanUser = (s) => (s || '').trim()
-  .replace(/^https?:\/\/(www\.)?threads\.(com|net)\//i, '')
+  .replace(/^https?:\/\/(www\.)?(threads\.(com|net)|instagram\.com)\//i, '')
   .replace(/^@/, '').replace(/[/?#].*$/, '').toLowerCase();
 
 function textColorFor(hex) {
@@ -100,6 +100,7 @@ async function init() {
   $('allowReveal').checked = s.allowReveal;
   $('showButton').checked = s.showButton;
   $('useRemote').checked = s.useRemote;
+  $('useInstagram').checked = await api.permissions.contains(INSTAGRAM);
   $('exceptions').value = s.exceptions.join('\n');
   $('remoteUrls').value = s.remoteUrls.join('\n');
   renderRemote(s.remoteData);
@@ -118,6 +119,15 @@ $('useRemote').addEventListener('change', async () => {
   if ($('useRemote').checked) await refreshRemote();
 });
 $('refresh').addEventListener('click', refreshRemote);
+
+const INSTAGRAM = { origins: ['https://www.instagram.com/*'] };
+$('useInstagram').addEventListener('change', async () => {
+  // permissions.request doit partir directement du clic, avant tout autre await
+  const ok = $('useInstagram').checked
+    ? await api.permissions.request(INSTAGRAM).catch(() => false)
+    : !(await api.permissions.remove(INSTAGRAM).catch(() => false));
+  $('useInstagram').checked = ok;
+});
 
 $('save').addEventListener('click', async () => {
   const accounts = [...new Set(lines($('accounts').value).map(cleanUser).filter(Boolean))];

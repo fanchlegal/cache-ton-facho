@@ -26,7 +26,7 @@
   const norm = (s) => (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
   const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const cleanUser = (s) => (s || '').trim()
-    .replace(/^https?:\/\/(www\.)?threads\.(com|net)\//i, '')
+    .replace(/^https?:\/\/(www\.)?(threads\.(com|net)|instagram\.com)\//i, '')
     .replace(/^@/, '').replace(/[/?#].*$/, '').toLowerCase();
 
   // ---------- Réglages ----------
@@ -76,6 +76,22 @@
 
   // ---------- Détection ----------
 
+  // Threads ou Instagram : seuls le repérage des posts et la forme des liens de profil changent
+  const IG = location.hostname.endsWith('instagram.com');
+  const USER_LINK = IG ? 'a[href^="/"]' : 'a[href*="/@"]';
+  const IG_PAGES = new Set(['explore', 'reels', 'reel', 'p', 'direct', 'accounts', 'stories', 'legal']);
+
+  // Pseudo d'un lien de profil : /@pseudo sur Threads (exact : sans rien derrière), /pseudo/ sur Instagram
+  function userOf(a, exact) {
+    const href = a.getAttribute('href') || '';
+    if (IG) {
+      const m = href.match(/^\/([\w.]+)\/$/);
+      return m && !IG_PAGES.has(m[1]) ? m[1] : null;
+    }
+    const m = href.match(exact ? /\/@([\w.]+)\/?$/ : /\/@([\w.]+)/);
+    return m ? m[1] : null;
+  }
+
   // Auteur du post : le pseudo sur la ligne de l'heure (sur un repost, le premier lien
   // est celui qui a republié, pas l'auteur)
   function usernameFromPost(post) {
@@ -83,10 +99,10 @@
     if (t) {
       let x = t.parentElement;
       for (let i = 0; i < 8 && x && x !== post.parentElement; i++, x = x.parentElement) {
-        for (const a of x.querySelectorAll('a[href*="/@"]')) {
+        for (const a of x.querySelectorAll(USER_LINK)) {
           if (a.closest('.cth-ui')) continue;
-          const m = (a.getAttribute('href') || '').match(/\/@([\w.]+)\/?$/);
-          if (m && a.textContent.trim()) return m[1];
+          const u = userOf(a, true);
+          if (u && a.textContent.trim()) return u;
         }
       }
     }
@@ -95,10 +111,10 @@
 
   // Premier compte cité dans le post (sur un repost : celui qui a republié)
   function firstUser(post) {
-    for (const a of post.querySelectorAll('a[href*="/@"]')) {
+    for (const a of post.querySelectorAll(USER_LINK)) {
       if (a.closest('.cth-ui')) continue;
-      const m = (a.getAttribute('href') || '').match(/\/@([\w.]+)/);
-      if (m) return m[1];
+      const u = userOf(a, false);
+      if (u) return u;
     }
     return null;
   }
@@ -280,8 +296,25 @@
     updateButton(post, u, reason);
   }
 
+  // Instagram n'a pas de conteneur de post commun : un post du fil est un <article> ; ailleurs
+  // (page d'un post, commentaires), c'est le plus grand bloc autour d'une heure qui n'en contient pas d'autre
+  // ponytail: un querySelectorAll par ancêtre de chaque heure, à revoir si le défilement rame
+  function instagramPosts() {
+    const posts = new Set();
+    for (const t of document.querySelectorAll('time')) {
+      let x = t.closest('article');
+      if (!x) {
+        x = t;
+        while (x.parentElement && x.parentElement.tagName !== 'MAIN'
+          && x.parentElement.querySelectorAll('time').length === 1) x = x.parentElement;
+      }
+      posts.add(x);
+    }
+    return posts;
+  }
+
   function scan() {
-    document.querySelectorAll('[data-pressable-container]').forEach(processPost);
+    (IG ? instagramPosts() : document.querySelectorAll('[data-pressable-container]')).forEach(processPost);
   }
 
   let toastTimer;
